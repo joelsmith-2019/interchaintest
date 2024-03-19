@@ -2,6 +2,7 @@ package dockerutil
 
 import (
 	"fmt"
+	"math/rand"
 	"net"
 	"strconv"
 	"sync"
@@ -21,6 +22,14 @@ func (l Listeners) CloseAll() {
 
 // openListener opens a listener on a port. Set to 0 to get a random port.
 func openListener(port int) (*net.TCPListener, error) {
+
+	// TODO: REMOVE
+	if port == 0 {
+		// Randomly select port between 7000 and 9000
+		port = 7000 + rand.Intn(2000)
+		fmt.Println("Randomly selected port:", port)
+	}
+
 	addr, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("127.0.0.1:%d", port))
 	if err != nil {
 		return nil, err
